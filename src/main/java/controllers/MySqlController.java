@@ -1,8 +1,11 @@
 package controllers;
 
+import model.Book;
+
 import java.sql.*;
 
 public class MySqlController {
+
     public Statement connect(){
         Connection connection = null;
         Statement stmt = null;
@@ -22,13 +25,13 @@ public class MySqlController {
 
     }
 
-    public void add(String bookID,String bookTitle,String bookPrice){
+    public void add(Book book){
         Statement stmt = connect();
         try
         {
 
             stmt.execute("INSERT INTO items (ID,TITLE,PRICE) "
-                    + "VALUES ("+bookID+",'"+bookTitle+"',"+bookPrice+")");
+                    + "VALUES ("+book.getBookID()+",'"+book.getBookTitle()+"',"+book.getBookPrice()+")");
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -40,12 +43,12 @@ public class MySqlController {
             }
         }
     }
-    public void delete(String bookID){
+    public void delete(Book book){
         Statement stmt = connect();
         try
         {
 
-            stmt.execute("DELETE FROM items WHERE ID IN ('"+bookID+"')");
+            stmt.execute("DELETE FROM items WHERE ID IN ('"+book.getBookID()+"')");
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -57,12 +60,13 @@ public class MySqlController {
             }
         }
     }
-    public void update(String bookID,String bookTitle,String bookPrice){
+    public void update(Book book){
         Statement stmt = connect();
         try
         {
 
-            stmt.execute("UPDATE items SET TITLE =('"+bookTitle+"'),PRICE = ('"+bookPrice+"')WHERE ID = ('"+bookID+"')");
+            stmt.execute("UPDATE items SET TITLE =('"+book.getBookTitle()+"')," +
+                    "PRICE = ('"+book.getBookPrice()+"')WHERE ID = ('"+book.getBookID()+"')");
         }
         catch (Exception e) {
             e.printStackTrace();
